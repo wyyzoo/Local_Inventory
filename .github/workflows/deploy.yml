@@ -1,0 +1,21 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to EC2
+        env:
+          SSH_KEY: ${{ secrets.EC2_SSH_KEY }}
+        run: |
+          echo "$SSH_KEY" > key.pem
+          chmod 400 key.pem
+          scp -o StrictHostKeyChecking=no -i key.pem inventory_portal.py ec2-user@35.162.133.146:~/
+          ssh -o StrictHostKeyChecking=no -i key.pem ec2-user@35.162.133.146 "sudo systemctl restart inventory-portal"
+          rm key.pem

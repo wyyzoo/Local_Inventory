@@ -416,8 +416,10 @@ body{background:var(--bg);height:100vh;display:flex;flex-direction:column;overfl
 
 /* Header */
 .hdr{background:linear-gradient(120deg,#1a305a 0%,#2f5496 100%);padding:0 20px;height:54px;
-     display:flex;align-items:center;justify-content:space-between;flex-shrink:0;user-select:none}
-.hdr-left{display:flex;align-items:center;gap:14px}
+     display:flex;align-items:center;gap:0;flex-shrink:0;user-select:none}
+.hdr-left{display:flex;align-items:center;gap:14px;flex:0 0 auto}
+.hdr-center{flex:1;display:flex;justify-content:center;align-items:center}
+.hdr-right{display:flex;align-items:center;gap:10px;flex:0 0 auto;margin-left:auto}
 .hdr-title{color:rgba(255,255,255,.75);font-size:11.5px;font-weight:400;display:flex;align-items:center;gap:8px}
 .nav-tabs{display:flex;gap:2px}
 .nav-tab{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;
@@ -457,7 +459,8 @@ body{background:var(--bg);height:100vh;display:flex;flex-direction:column;overfl
 .fb.rp.on{background:#c2410c;border-color:#c2410c}
 .fb.nw.on{background:#15803d;border-color:#15803d}
 .fb.bk.on{background:#b45309;border-color:#b45309}
-.fb-cnt{font-weight:700;margin-left:4px;opacity:.85}
+.fb-cnt{font-weight:700;margin-left:4px;display:none}
+.fb.on .fb-cnt{display:inline}
 .sp{flex:1}
 .tb{border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11.5px;
     cursor:pointer;background:var(--card);color:var(--muted);transition:all .14s;white-space:nowrap}
@@ -625,7 +628,7 @@ tr.sel .badge{background:rgba(255,255,255,.22);color:#fff}
 <div class="hdr">
   <div class="hdr-left">
     <div class="hdr-title">
-      <svg width="18" height="18" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+      <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
         <path d="M20 7H4a2 2 0 00-2 2v10a2 2 0 002 2h16a2 2 0 002-2V9a2 2 0 00-2-2z"/>
         <path d="M16 3H8l-2 4h12l-2-4z"/>
       </svg>
@@ -635,22 +638,24 @@ tr.sel .badge{background:rgba(255,255,255,.22);color:#fff}
       <button class="nav-tab active" id="tab-inv"  onclick="showView('inventory')">📦 Inventory</button>
       <button class="nav-tab"        id="tab-hist" onclick="showView('history')">📋 History</button>
     </div>
-    <div style="display:flex;align-items:center;gap:10px;margin-left:auto;padding-right:4px">
-      <span id="user-label" style="font-size:12px;color:#94a3b8"></span>
-      <a href="/logout" style="font-size:12px;color:#64748b;text-decoration:none;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;background:#fff">Sign out</a>
+  </div>
+  <div class="hdr-center">
+    <div class="hdr-stats" id="hdr-inv-stats">
+      <div class="stat clickable" id="badge-total" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)" onclick="setBadgeFilter('reset')"><span class="stat-dot" style="background:#fff"></span>Total<span class="stat-n" id="s-total">—</span></div>
+      <div style="width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px"></div>
+      <div class="stat clickable" id="badge-s4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','S4')"><span class="stat-dot" style="background:#7dd3fc"></span>S4<span class="stat-n" id="s-s4">—</span></div>
+      <div class="stat clickable" id="badge-v3s" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V3S')"><span class="stat-dot" style="background:#a5b4fc"></span>V3S<span class="stat-n" id="s-v3s">—</span></div>
+      <div class="stat clickable" id="badge-v4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V4')"><span class="stat-dot" style="background:#6ee7b7"></span>V4<span class="stat-n" id="s-v4">—</span></div>
+    </div>
+    <div id="hdr-hist-stats" style="display:none;gap:8px" class="hdr-stats">
+      <div class="stat ln"><span class="stat-dot" style="background:#93c5fd"></span>IN<span class="stat-n" id="hs-in">—</span></div>
+      <div class="stat rp"><span class="stat-dot" style="background:#fdba74"></span>OUT<span class="stat-n" id="hs-out">—</span></div>
+      <div class="stat nw"><span class="stat-dot" style="background:#86efac"></span>Net<span class="stat-n" id="hs-net">—</span></div>
     </div>
   </div>
-  <div class="hdr-stats" id="hdr-inv-stats">
-    <div class="stat clickable" id="badge-total" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)" onclick="setBadgeFilter('reset')"><span class="stat-dot" style="background:#fff"></span>Total<span class="stat-n" id="s-total">—</span></div>
-    <div style="width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px"></div>
-    <div class="stat clickable" id="badge-s4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','S4')"><span class="stat-dot" style="background:#7dd3fc"></span>S4<span class="stat-n" id="s-s4">—</span></div>
-    <div class="stat clickable" id="badge-v3s" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V3S')"><span class="stat-dot" style="background:#a5b4fc"></span>V3S<span class="stat-n" id="s-v3s">—</span></div>
-    <div class="stat clickable" id="badge-v4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V4')"><span class="stat-dot" style="background:#6ee7b7"></span>V4<span class="stat-n" id="s-v4">—</span></div>
-  </div>
-  <div id="hdr-hist-stats" style="display:none;gap:8px" class="hdr-stats">
-    <div class="stat ln"><span class="stat-dot" style="background:#93c5fd"></span>IN<span class="stat-n" id="hs-in">—</span></div>
-    <div class="stat rp"><span class="stat-dot" style="background:#fdba74"></span>OUT<span class="stat-n" id="hs-out">—</span></div>
-    <div class="stat nw"><span class="stat-dot" style="background:#86efac"></span>Net<span class="stat-n" id="hs-net">—</span></div>
+  <div class="hdr-right">
+    <span id="user-label" style="font-size:12px;color:#94a3b8"></span>
+    <a href="/logout" style="font-size:12px;color:#64748b;text-decoration:none;border:1px solid #e2e8f0;border-radius:6px;padding:4px 10px;background:#fff">Sign out</a>
   </div>
 </div>
 
@@ -1028,16 +1033,11 @@ async function loadInventory(){
 }
 
 function updateInvStats(){
-  const c = cat => invAll.filter(i=>i.category===cat).length;
   const m = mdl => invAll.filter(i=>i.model===mdl).length;
   document.getElementById('s-total').textContent = invAll.length;
   document.getElementById('s-s4').textContent  = m('S4');
   document.getElementById('s-v3s').textContent = m('V3S');
   document.getElementById('s-v4').textContent  = m('V4');
-  document.getElementById('fb-ln').textContent = c('Like New');
-  document.getElementById('fb-rp').textContent = c('Replacement');
-  document.getElementById('fb-nw').textContent = c('New');
-  document.getElementById('fb-bk').textContent = invAll.filter(i=>i.status==='booked').length;
 }
 
 function catClass(c){return{'Like New':'ln','New':'nw','Replacement':'rp'}[c]||''}
@@ -1070,7 +1070,14 @@ function applyInvFilters(){
                            .some(v=>(v||'').toLowerCase().includes(q));
     return srchOk;
   });
-  sortInvItems(); renderInv();
+  sortInvItems(); renderInv(); syncFilterCounts();
+}
+
+function syncFilterCounts(){
+  ['fb-ln','fb-rp','fb-nw','fb-bk'].forEach(id=>{ document.getElementById(id).textContent=''; });
+  const map = {'Like New':'fb-ln','Replacement':'fb-rp','New':'fb-nw','booked':'fb-bk'};
+  if(invFcat !== 'all' && map[invFcat])
+    document.getElementById(map[invFcat]).textContent = invFiltered.length;
 }
 
 function setInvCat(f,btn){

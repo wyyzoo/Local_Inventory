@@ -418,7 +418,7 @@ body{background:var(--bg);height:100vh;display:flex;flex-direction:column;overfl
 .hdr{background:linear-gradient(120deg,#1a305a 0%,#2f5496 100%);padding:0 20px;height:54px;
      display:flex;align-items:center;justify-content:space-between;flex-shrink:0;user-select:none}
 .hdr-left{display:flex;align-items:center;gap:14px}
-.hdr-title{color:#fff;font-size:15px;font-weight:600;display:flex;align-items:center;gap:10px}
+.hdr-title{color:rgba(255,255,255,.75);font-size:11.5px;font-weight:400;display:flex;align-items:center;gap:8px}
 .nav-tabs{display:flex;gap:2px}
 .nav-tab{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:6px;
          padding:5px 16px;font-size:12.5px;font-weight:500;color:rgba(255,255,255,.75);
@@ -457,6 +457,7 @@ body{background:var(--bg);height:100vh;display:flex;flex-direction:column;overfl
 .fb.rp.on{background:#c2410c;border-color:#c2410c}
 .fb.nw.on{background:#15803d;border-color:#15803d}
 .fb.bk.on{background:#b45309;border-color:#b45309}
+.fb-cnt{font-weight:700;margin-left:4px;opacity:.85}
 .sp{flex:1}
 .tb{border:1px solid var(--border);border-radius:5px;padding:4px 10px;font-size:11.5px;
     cursor:pointer;background:var(--card);color:var(--muted);transition:all .14s;white-space:nowrap}
@@ -642,11 +643,6 @@ tr.sel .badge{background:rgba(255,255,255,.22);color:#fff}
   <div class="hdr-stats" id="hdr-inv-stats">
     <div class="stat clickable" id="badge-total" style="background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.35)" onclick="setBadgeFilter('reset')"><span class="stat-dot" style="background:#fff"></span>Total<span class="stat-n" id="s-total">—</span></div>
     <div style="width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px"></div>
-    <div class="stat ln clickable" id="badge-ln" onclick="setBadgeFilter('cat','Like New')"><span class="stat-dot"></span>Like New<span class="stat-n" id="s-ln">—</span></div>
-    <div class="stat rp clickable" id="badge-rp" onclick="setBadgeFilter('cat','Replacement')"><span class="stat-dot"></span>Replacement<span class="stat-n" id="s-rp">—</span></div>
-    <div class="stat nw clickable" id="badge-nw" onclick="setBadgeFilter('cat','New')"><span class="stat-dot"></span>New<span class="stat-n" id="s-nw">—</span></div>
-    <div class="stat bk clickable" id="badge-bk" onclick="setBadgeFilter('cat','booked')"><span class="stat-dot"></span>Booked<span class="stat-n" id="s-bk">—</span></div>
-    <div style="width:1px;height:22px;background:rgba(255,255,255,.2);margin:0 2px"></div>
     <div class="stat clickable" id="badge-s4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','S4')"><span class="stat-dot" style="background:#7dd3fc"></span>S4<span class="stat-n" id="s-s4">—</span></div>
     <div class="stat clickable" id="badge-v3s" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V3S')"><span class="stat-dot" style="background:#a5b4fc"></span>V3S<span class="stat-n" id="s-v3s">—</span></div>
     <div class="stat clickable" id="badge-v4" style="background:rgba(255,255,255,.08)" onclick="setBadgeFilter('mdl','V4')"><span class="stat-dot" style="background:#6ee7b7"></span>V4<span class="stat-n" id="s-v4">—</span></div>
@@ -667,10 +663,10 @@ tr.sel .badge{background:rgba(255,255,255,.22);color:#fff}
     </div>
     <div class="filters">
       <button class="fb on"  onclick="setInvCat('all',this)">All</button>
-      <button class="fb ln"  onclick="setInvCat('Like New',this)">Like New</button>
-      <button class="fb rp"  onclick="setInvCat('Replacement',this)">Replacement</button>
-      <button class="fb nw"  onclick="setInvCat('New',this)">New</button>
-      <button class="fb bk"  onclick="setInvCat('booked',this)">Booked</button>
+      <button class="fb ln"  onclick="setInvCat('Like New',this)">Like New<span class="fb-cnt" id="fb-ln">—</span></button>
+      <button class="fb rp"  onclick="setInvCat('Replacement',this)">Replacement<span class="fb-cnt" id="fb-rp">—</span></button>
+      <button class="fb nw"  onclick="setInvCat('New',this)">New<span class="fb-cnt" id="fb-nw">—</span></button>
+      <button class="fb bk"  onclick="setInvCat('booked',this)">Booked<span class="fb-cnt" id="fb-bk">—</span></button>
     </div>
     <div class="sp"></div>
     <button class="tb" onclick="selectAll()">Select All</button>
@@ -1035,13 +1031,13 @@ function updateInvStats(){
   const c = cat => invAll.filter(i=>i.category===cat).length;
   const m = mdl => invAll.filter(i=>i.model===mdl).length;
   document.getElementById('s-total').textContent = invAll.length;
-  document.getElementById('s-ln').textContent  = c('Like New');
-  document.getElementById('s-rp').textContent  = c('Replacement');
-  document.getElementById('s-nw').textContent  = c('New');
-  document.getElementById('s-bk').textContent  = invAll.filter(i=>i.status==='booked').length;
   document.getElementById('s-s4').textContent  = m('S4');
   document.getElementById('s-v3s').textContent = m('V3S');
   document.getElementById('s-v4').textContent  = m('V4');
+  document.getElementById('fb-ln').textContent = c('Like New');
+  document.getElementById('fb-rp').textContent = c('Replacement');
+  document.getElementById('fb-nw').textContent = c('New');
+  document.getElementById('fb-bk').textContent = invAll.filter(i=>i.status==='booked').length;
 }
 
 function catClass(c){return{'Like New':'ln','New':'nw','Replacement':'rp'}[c]||''}
@@ -1084,28 +1080,12 @@ function setInvCat(f,btn){
 }
 
 function setBadgeFilter(type, value){
-  const catMap = {'Like New':'badge-ln','Replacement':'badge-rp','New':'badge-nw','booked':'badge-bk'};
   const mdlMap = {'S4':'badge-s4','V3S':'badge-v3s','V4':'badge-v4'};
-  const allBadges = ['badge-total','badge-ln','badge-rp','badge-nw','badge-bk','badge-s4','badge-v3s','badge-v4'];
 
   if(type === 'reset'){
     invFcat='all'; invFmdl='all';
-    allBadges.forEach(id=>document.getElementById(id).classList.remove('active'));
-    // sync toolbar buttons
-    const allBtn = document.querySelector('#view-inventory .toolbar .fb');
-    document.querySelectorAll('#view-inventory .toolbar .fb').forEach(b=>b.classList.remove('on'));
-    if(allBtn) allBtn.classList.add('on');
-  } else if(type === 'cat'){
-    const badgeId = catMap[value];
-    const isActive = document.getElementById(badgeId).classList.contains('active');
-    // clear all cat badges
-    Object.values(catMap).forEach(id=>document.getElementById(id).classList.remove('active'));
-    if(isActive){ invFcat='all'; }
-    else { invFcat=value; document.getElementById(badgeId).classList.add('active'); }
-    // sync toolbar buttons
-    document.querySelectorAll('#view-inventory .toolbar .fb').forEach(b=>{
-      b.classList.toggle('on', b.textContent.trim()===(isActive?'All':value==='booked'?'Booked':value));
-    });
+    ['badge-s4','badge-v3s','badge-v4'].forEach(id=>document.getElementById(id).classList.remove('active'));
+    document.querySelectorAll('#view-inventory .toolbar .fb').forEach((b,i)=>{b.classList.toggle('on',i===0);});
   } else if(type === 'mdl'){
     const badgeId = mdlMap[value];
     const isActive = document.getElementById(badgeId).classList.contains('active');
